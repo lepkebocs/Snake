@@ -32,11 +32,14 @@ def main(scr):
         win.nodelay(1)
         title = ' Snake '
         win.addstr(0, (curses.COLS - len(title)) // 2, title)
+        score = 0
+        win.addstr(0, 1, "Score: " + str(-3+len(start_output[0])) + " " )
 
         win.addch(food[0], food[1], "*")
         if start_output[0][0] == food[0] and start_output[1][0] == food[1]:
-            win.addstr(5,6, "hamm")
             food = [randint(5,20),randint(5,75)]
+            start_output[0].insert(0, start_output[0][0])
+            start_output[1].insert(1, start_output[1][0])
 
 
         if key == KEY_RIGHT:
@@ -85,17 +88,17 @@ def main(scr):
 
         for i in range(len(start_output[1])):
 
-            if start_output[2] == "right":
+            if start_output[2] == "right" and turn == 0:
                 start_output[1][i]=start_output[1][i]+1
 
-            elif start_output[2] == "left":
+            elif start_output[2] == "left" and turn == 0:
                 start_output[1][i] = start_output[1][i]-1
 
-            elif start_output[2] == "up":
+            elif start_output[2] == "up" and turn == 0:
                 start_output[0][i] = start_output[0][i]-1
 
 
-            elif start_output[2] == "down":
+            elif start_output[2] == "down" and turn == 0:
                 start_output[0][i] = start_output[0][i]+1
 
             win.addstr(start_output[0][i], start_output[1][i], "O")
