@@ -11,17 +11,14 @@ def start(snake_y=[], snake_x=[], direction=""):
     snake_x = [20, 19, 18]
     return [snake_y, snake_x, direction]
 
-
 def main(scr):
     curses.noecho()
     curses.curs_set(0)
     win = curses.newwin(curses.LINES, curses.COLS, 0, 0)
-    win_size=[curses.LINES, curses.COLS]
+    win.clear()
     win.keypad(1)
     win.border(0)
     win.nodelay(1)
-    title = ' Snake '
-    win.addstr(0, (curses.COLS - len(title)) // 2, title)
     gammeover = True
 
     turn = 0
@@ -30,15 +27,12 @@ def main(scr):
     food = [randint(5, 20), randint(5, 75)]
 
     while gammeover != False:
-
-
         win.clear()
         win.keypad(1)
         win.border(0)
         win.nodelay(1)
         title = ' Snake '
         win.addstr(0, (curses.COLS - len(title)) // 2, title)
-        score = 0
         win.addstr(0, 1, "Score: " + str(-3+len(start_output[0])) + " ")
 
         win.addch(food[0], food[1], "*")
@@ -90,10 +84,16 @@ def main(scr):
                 turn -= 1
 
         for i in range(len(start_output[1])):
-            if start_output[0][0]==0 or start_output[1][0] == 0 or start_output[0][0] == 23 or start_output[1][0] == 79:
+
+            if start_output[0][0] == 0 or start_output[1][0] == 0 or start_output[0][0] == 23 or start_output[1][0] == 79:
+                # curses.endwin()
+                # win.clear()
+                f = open('snake.txt', 'r')
+                text = f.readline()
+                if str((-3+len(start_output[0]))) > text:
+                    with open('snake.txt', 'w') as output:
+                        output.write(str(-3+len(start_output[0])))
                 gammeover = False
-                #curses.endwin()
-                #win.clear()
 
             elif start_output[2] == "right" and turn == 0:
                 start_output[1][i] = start_output[1][i]+1
